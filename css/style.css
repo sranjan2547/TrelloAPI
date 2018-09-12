@@ -1,0 +1,16 @@
+
+button{
+display: block;
+height: 30px;
+width:80px;
+}
+.list-group{
+    display:flex;
+    flex-direction: column;
+}
+.list-group>div{
+    width: 400px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
