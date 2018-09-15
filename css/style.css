@@ -14,6 +14,6 @@ width:80px;
     flex-direction: row;
     justify-content: space-between;
 }
-.container{
+body{
     background-color: gainsboro;
 }
