@@ -72,55 +72,46 @@ function loadTask() {
         .then(response => response.json())
         .then((response) => {
             checklists = response;
-            console.log(response);
-            k = 0;
-            for (l = 0; l < response.length; l++) {
-                if (response[l].id == checklistId) {
-                    k = l;
-                    console.log(true + " " + k)
-                }
-            }
+            response.forEach(function (checkList) {
+                if (checkList.id == checklistId) {
+                    console.log(checkList)
+                    checkList.checkItems.forEach(function (checkItem) {
+                        checkItemName = checkItem.name;
+                        checkItemId = "a" + checkItem.id;
+                        var statusOfTask;
+                        if (checkItem.state == 'incomplete') {
 
-            lengthOfChecklist = checklists[k]['checkItems'].length;
-            for (i = 0; i < lengthOfChecklist; i++) {
-                checkItemName = checklists[k]['checkItems'][i]['name']
-                checkItemId = "a" + checklists[k]['checkItems'][i]['id'];
-                //  console.log(checkItemId);
-                var statusOfTask;
-                if (checklists[k]['checkItems'][i]['state'] == 'incomplete') {
+                            statusOfTask = "unchecked";
+                        } else {
 
-                    statusOfTask = "unchecked";
-                } else {
-                    // console.log("checked");
-                    statusOfTask = "checked";
+                            statusOfTask = "checked";
+                        }
+                        appendTask(statusOfTask, checkItemName, checkItemId);
+                    })
                 }
-                appendTask(statusOfTask, checkItemName, checkItemId);
-            }
+            })
         })
 
 };
 
 function appendTask(statusOfTask, checkItemName, checkItemId) {
-    $("#list-group").append('<div id="parent"><div> <input type="checkbox" onclick= "handleClick(event)" id=' + checkItemId + " " + statusOfTask + ' ></input><label>' + checkItemName + '</label></div><input class="delete-button" type="button" value="delete" onclick="deleteTask(event)"></div>');
-    //console.log($(.psrseInt( checkItemId)).id)
+    $("#list-group").append('<div id="parent"><div> <input type="checkbox" onclick= "handleClick(event)" id=' + checkItemId + " " + statusOfTask + ' ></input><label>' + checkItemName + '</label></div></div>');
 }
 
 
 $("#add-task").click(function () {
-    console.log(checklists)
-
     var task = $(".todoText").val();
     if (task != '') {
-
         fetch('https://api.trello.com/1/checklists/' + checklistId + '/checkItems?name=' + task + '&pos=bottom&' + auth, {
                 method: "POST"
             })
             .then(response => response.json())
             .then((response) => {
                 console.log(response);
+                $('#list-group').load(document.URL + ' #list-group');
+                loadTask();
             })
 
-        location.reload(true);
 
 
     }
@@ -129,10 +120,7 @@ $("#add-task").click(function () {
 
 function handleClick(e) {
     taskId = e.currentTarget.id.substr(1);
-    //    console.log(taskId);
-    //console.log(cardId)
-    //console.log(checklistId)
-    //console.log(taskId)
+
     if (e.currentTarget.checked == false) {
         fetch('https://api.trello.com/1/cards/' + cardId + '/checklist/' + checklistId + '/checkItem/' + taskId + '/state?' + auth + '&value=false', {
             method: "PUT"
@@ -143,22 +131,3 @@ function handleClick(e) {
         })
     }
 }
-
-
-function deleteTask(e) {
-    var target = e.currentTarget;
-    //   console.log( JSON.stringify( $(target).parent()[0].id))
-    $(target).parent().remove();
-
-}
-
-
-
-
-
-
-/*
-$(function(){
-$("#abc").click(function(){
-    console.log("hello");
-})})*/
