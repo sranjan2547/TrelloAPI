@@ -3,6 +3,8 @@
     "rules": {
         "no-shadow": 0,
         "no-undef": 0,
-        "prefer-destructuring":0
+        "prefer-destructuring":0,
+        "no-use-before-define":0,
+        "no-unused-vars":0
     }
 }
