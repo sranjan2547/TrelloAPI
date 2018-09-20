@@ -12,17 +12,16 @@ $(document).ready(() => {
   ).then(boards => boards.json())
     .then((boards) => {
       boardID = boards[3].id;
-
+    }).then(() => {
       fetch(`https://api.trello.com/1/boards/${boardID}/checklists/?${auth}`)
         .then(checkLists => checkLists.json())
         .then((checkLists) => {
-          //  console.log(checkLists[0])
           checklistId = checkLists[0].id;
           cardId = checkLists[0].idCard;
         });
 
-      loadCard();
-      loadTask();
+      loadCard();// eslint-disable-line no-use-before-define
+      loadTask(); // eslint-disable-line no-use-before-define
     });
 });
 
@@ -39,7 +38,7 @@ $('select#selectCard').change(() => {
       });
     });
   $('#list-group').load(`${document.URL} #list-group`);
-  loadTask();
+  loadTask();// eslint-disable-line no-use-before-define
 });
 
 
@@ -49,7 +48,7 @@ function loadCard() {
     .then((list) => {
       list.forEach((checkList) => {
         checkListName = checkList.name;
-        id = checkList.id;
+        const id = checkList.id;// eslint-disable-line prefer-destructuring
         $('#selectCard').append(`<option value=${id}>${checkListName}</option>`);
       });
     });
@@ -72,7 +71,7 @@ function loadTask() {
             } else {
               statusOfTask = 'checked';
             }
-            appendTask(statusOfTask, checkItemName, checkItemId);
+            appendTask(statusOfTask, checkItemName, checkItemId); // eslint-disable-line no-use-before-define
           });
         }
       });
@@ -90,7 +89,6 @@ $('#add-task').click(() => {
     fetch(`https://api.trello.com/1/checklists/${checklistId}/checkItems?name=${task}&pos=bottom&${auth}`, {
       method: 'POST',
     })
-      .then(task => task.json())
       .then(() => {
         $('#list-group').load(`${document.URL} #list-group`);
         loadTask();
@@ -98,7 +96,7 @@ $('#add-task').click(() => {
   }
 });
 
-function handleClick(event) {
+function handleClick(event) { // eslint-disable-line no-unused-vars
   taskId = event.currentTarget.id.substr(1);
 
   if (event.currentTarget.checked === false) {
