@@ -1,10 +1,10 @@
 {
     "extends": "airbnb-base",
     "rules": {
-        "no-shadow": 0,
+        "no-shadow": 2,
         "no-undef": 0,
-        "prefer-destructuring":0,
-        "no-use-before-define":0,
-        "no-unused-vars":0
+        "prefer-destructuring":2,
+        "no-use-before-define":2,
+        "no-unused-vars":2
     }
 }
