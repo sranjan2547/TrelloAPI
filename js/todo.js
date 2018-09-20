@@ -79,7 +79,7 @@ function loadTask() {
 }
 
 function appendTask(statusOfTask, checkItemName, checkItemId) {
-  $('#list-group').append(`<div id="parent"><div> <input type="checkbox" onclick= "handleClick(event)" id=${checkItemId} ${statusOfTask} ></input><label>${checkItemName}</label></div></div>`);
+  $('#list-group').append(`<div id="parent"><div> <input type="checkbox" onclick= "checkTask(event)" id=${checkItemId} ${statusOfTask} ></input><label>${checkItemName}</label></div></div>`);
 }
 
 
@@ -96,7 +96,7 @@ $('#add-task').click(() => {
   }
 });
 
-function handleClick(event) { // eslint-disable-line no-unused-vars
+function checkTask(event) { // eslint-disable-line no-unused-vars
   taskId = event.currentTarget.id.substr(1);
 
   if (event.currentTarget.checked === false) {
