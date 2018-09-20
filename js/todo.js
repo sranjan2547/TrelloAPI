@@ -98,14 +98,13 @@ $('#add-task').click(() => {
 
 function checkTask(event) { // eslint-disable-line no-unused-vars
   taskId = event.currentTarget.id.substr(1);
-
+  let stateOfTask;
   if (event.currentTarget.checked === false) {
-    fetch(`https://api.trello.com/1/cards/${cardId}/checklist/${checklistId}/checkItem/${taskId}/state?${auth}&value=false`, {
-      method: 'PUT',
-    });
+    stateOfTask = false;
   } else {
-    fetch(`https://api.trello.com/1/cards/${cardId}/checklist/${checklistId}/checkItem/${taskId}/state?${auth}&value=true`, {
-      method: 'PUT',
-    });
+    stateOfTask = true;
   }
+  fetch(`https://api.trello.com/1/cards/${cardId}/checklist/${checklistId}/checkItem/${taskId}/state?${auth}&value=${stateOfTask}`, {
+    method: 'PUT',
+  });
 }
